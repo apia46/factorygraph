@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cj8gshm0ndgbw"
-path="res://.godot/imported/wonderful.png-9504162c910a619451cb69edfaafff09.ctex"
+uid="uid://bww0chf7pymm1"
+path="res://.godot/imported/antiwonderful.png-b8ff2347748da12ba39f33398d5d9142.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://wonderful.png"
-dest_files=["res://.godot/imported/wonderful.png-9504162c910a619451cb69edfaafff09.ctex"]
+source_file="res://assets/antiwonderful.png"
+dest_files=["res://.godot/imported/antiwonderful.png-b8ff2347748da12ba39f33398d5d9142.ctex"]
 
 [params]
 

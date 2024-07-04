@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cmq5ib8kw1egv"]
+[gd_scene load_steps=5 format=3 uid="uid://cmq5ib8kw1egv"]
 
 [ext_resource type="Script" path="res://component.gd" id="1_umofg"]
-[ext_resource type="Texture2D" uid="uid://cj8gshm0ndgbw" path="res://wonderful.png" id="2_spdok"]
-[ext_resource type="Texture2D" uid="uid://bww0chf7pymm1" path="res://antiwonderful.png" id="3_7kr22"]
+[ext_resource type="Texture2D" uid="uid://cj8gshm0ndgbw" path="res://assets/wonderful.png" id="2_rdoi3"]
+[ext_resource type="Texture2D" uid="uid://bww0chf7pymm1" path="res://assets/antiwonderful.png" id="3_sfv60"]
+[ext_resource type="PackedScene" uid="uid://cp7mel8y1t700" path="res://input.tscn" id="4_3dchy"]
 
 [node name="component" type="Control"]
 layout_mode = 3
@@ -24,14 +25,27 @@ grow_vertical = 0
 
 [node name="icon" type="TextureButton" parent="iconContainer"]
 layout_mode = 2
-texture_normal = ExtResource("2_spdok")
-texture_pressed = ExtResource("3_7kr22")
+texture_normal = ExtResource("2_rdoi3")
+texture_pressed = ExtResource("3_sfv60")
 
 [node name="container" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="tabs" type="TabContainer" parent="container"]
+layout_mode = 2
+
+[node name="_" type="MarginContainer" parent="container/tabs"]
+layout_mode = 2
+
+[node name="Settings" type="MarginContainer" parent="container/tabs"]
+visible = false
+layout_mode = 2
+
+[node name="input" parent="container/tabs/Settings" instance=ExtResource("4_3dchy")]
+layout_mode = 2
 
 [connection signal="pressed" from="iconContainer/icon" to="." method="_icon_pressed"]
 [connection signal="gui_input" from="container" to="." method="gui_input"]
