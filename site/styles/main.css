@@ -1,0 +1,38 @@
+@font-face {
+	font-family: notosansmono;
+	src: url(../assets/notosansmono.ttf);
+	font-weight: 400;
+}
+
+* { image-rendering: pixelated; user-select: none; }
+
+body {
+	height: 100vh;
+	width: 100vw;
+	overflow: hidden;
+	background: #222;
+	color: #fff;
+	font-family: notosansmono;
+	margin: 0;
+	font-size: 0;
+	
+	--highlight: #fff;
+	--bright: #999;
+	--dark: #333;
+	--background: #111;
+}
+
+button {
+	--this-background: var(--background);
+	border: none;
+	outline: none;
+	background: var(--this-background);
+	color: var(--highlight);
+	cursor: pointer;
+
+    &:hover {
+        --this-background: var(--dark);
+        outline: 2px solid var(--highlight);
+        outline-offset: -2px;
+    }
+}

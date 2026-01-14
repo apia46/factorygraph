@@ -1,0 +1,16 @@
+node {
+	font-size: 4px;
+	position: absolute;
+	display: block;
+	background: var(--background);
+	box-sizing: border-box;
+	--posX: 0;
+	--posY: 0;
+	left: calc(round(var(--posX) + 4, 8) * 1px - 4px);
+	top: calc(round(var(--posY) + 4, 8) * 1px - 4px);
+}
+
+node.itemNode {
+    width: 18em;
+    height: 18em;
+}

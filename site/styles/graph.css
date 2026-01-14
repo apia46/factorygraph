@@ -1,0 +1,19 @@
+#wrapper {
+	--posX: 0;
+	--posY: 0;
+	--scale: 1;
+	width: 100%;
+	height: calc(100% - 52px); /* surely theres a better way to do this but i kind of just dont care */
+	background: url(../assets/grid.png);
+	background-size: calc(288px * var(--scale));
+	background-position: calc(var(--posX) * 1px) calc(var(--posY) * 1px);
+	overflow: hidden;
+}
+#graph {
+	position: relative;
+    width: 0;
+    height: 0;
+	left: calc(var(--posX) * 1px);
+	top: calc(var(--posY) * 1px);
+	transform: scale(var(--scale));
+}

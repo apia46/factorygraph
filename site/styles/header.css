@@ -1,0 +1,23 @@
+header {
+	box-sizing: border-box;
+	padding: 4px;
+	width: 100%;
+	height: 52px;
+	font-size: 0;
+	display: none;
+}
+
+body[state="normal"] #normalHeader {display: block}
+body[state="recipeSearch"] #recipeSearchHeader, body[state="recipeSearch"] #searchOverlay {display: block}
+body[state="itemSearch"] #itemSearchHeader, body[state="itemSearch"] #searchOverlay {display: block}
+#normalHeader > button {
+	display: inline-block;
+	width: 36px;
+	height: 36px;
+	margin: 4px;
+	padding: 2px;
+	background-size: 32px;
+	background-position: 2px 2px;
+}
+#newRecipeNodeButton { background: var(--this-background) no-repeat url(../assets/newRecipe.png) }
+#newItemNodeButton { background: var(--this-background) no-repeat url(../assets/newItem.png) }

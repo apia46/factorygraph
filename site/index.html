@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>factorygraph</title>
+        <link rel="icon" type="image/png" href="assets/recipeArrow.png">
+        <link href="/fonts.css" rel="stylesheet">
+        <link href="styles/main.css" rel="stylesheet">
+        <link href="styles/header.css" rel="stylesheet">
+        <link href="styles/graph.css" rel="stylesheet">
+        <link href="styles/nodes.css" rel="stylesheet">
+        <script type="module">
+            import init, {step} from "./pkg/factorygraph.js";
+            await init();
+            setInterval(()=>{
+                step();
+            }, 0);
+            </script>
+    </head>
+    <body state="normal">
+        <header id="normalHeader">
+            <button id="newRecipeNodeButton"></button>
+            <button id="newItemNodeButton"></button>
+        </header>
+        <div id="wrapper">
+            <div id="graph">
+				<div id="nodeElements"></div>
+				<div id="lineElements"></div>
+			</div>
+        </div>
+        <script type="module">
+            import {add_node} from "./pkg/factorygraph.js";
+            newItemNodeButton.addEventListener("click", ()=>add_node());
+        </script>
+    </body>
+</html>
