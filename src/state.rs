@@ -68,6 +68,7 @@ pub mod graph {
 
 pub mod dragged {
     use super::*;
+    type S = super::State;
 
     #[derive(Clone, Copy)]
     pub enum State {
@@ -78,29 +79,16 @@ pub mod dragged {
 
     pub(super) const fn default() -> State { State::Nothing }
 
-    pub fn stop_drag() {
-        STATE.with_borrow_mut(|state| {state.dragged = State::Nothing;});
+    pub fn stop_drag(state: &mut S) {
+        state.dragged = State::Nothing;
     }
 
-    pub fn drag_graph() {
-        STATE.with_borrow_mut(|state| {state.dragged = State::Graph;});
+    pub fn drag_graph(state: &mut S) {
+        state.dragged = State::Graph;
     }
 
-    #[derive(Debug)]
-    enum DragNodeError {
-        NonexistentNode
-    }
-    impl Display for DragNodeError {
-        fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-            match self {
-                Self::NonexistentNode => write!(f, "Tried to continue dragging a nonexistent node")
-            }
-        }
-    }
-    impl Error for DragNodeError {}
-
-    pub fn drag_node(key:graph::NodeKey) {
-        STATE.with_borrow_mut(|state| {state.dragged = State::Node(key);});
+    pub fn drag_node(key:graph::NodeKey, state: &mut S) {
+        state.dragged = State::Node(key);
     }
 
     pub(super) fn process_drag(dist:Point<f64>) {
@@ -110,13 +98,11 @@ pub mod dragged {
                 STATE.with_borrow_mut(|state| {graph::move_position(dist, state);});
             },
             State::Node(key) => {
-                let result:Result<(),DragNodeError> = STATE.with_borrow_mut(|state| {
+                STATE.with_borrow_mut(|state| {
                     let scale = state.graph.scale;
-                    let Some(node) = graph::get_node_mut(key, state) else { return Err(DragNodeError::NonexistentNode) };
+                    let Some(node) = graph::get_node_mut(key, state) else { stop_drag(state); return };
                     node.move_position(dist/scale);
-                    Ok(())
                 });
-                if let Err(DragNodeError::NonexistentNode) = result { stop_drag(); }
             }
         }
     }
@@ -142,6 +128,6 @@ pub fn init() {
         let event = event.dyn_ref::<MouseEvent>().unwrap();
         dragged::process_drag(Point::new(event.movement_x().into(), event.movement_y().into()));
 
-        STATE.with_borrow_mut(|state| {state.mouse_screen_position = Point::new(event.client_x(), event.client_y())});
+        STATE.with_borrow_mut(|state| {state.mouse_screen_position = Point::new(event.client_x(), event.client_y());});
     }).into());
 }

@@ -18,7 +18,7 @@ impl ItemNode {
                 let event = event.dyn_ref::<MouseEvent>().unwrap();
                 event.stop_propagation();
                 if event.button() == 0 {
-                    state::dragged::drag_node(key);
+                    state::STATE.with_borrow_mut(|state| {state::dragged::drag_node(key, state);});
                 }
             });
             let mut node = ItemNode {

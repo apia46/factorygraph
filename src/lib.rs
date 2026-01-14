@@ -1,4 +1,4 @@
-use std::{cell::RefCell, error::Error, fmt::Display};
+use std::cell::RefCell;
 use wasm_bindgen::prelude::*;
 use web_sys::{Element, MouseEvent, WheelEvent, HtmlElement};
 use gloo::events::EventListener;
@@ -21,13 +21,13 @@ fn init() -> Result<(), JsValue> {
     Box::leak(EventListener::new(&get_wrapper(), "mousedown", move |event| {
         let event = event.dyn_ref::<MouseEvent>().unwrap();
         if event.button() == 0 {
-            state::dragged::drag_graph();
+            state::STATE.with_borrow_mut(|state| {state::dragged::drag_graph(state);});
         }
     }).into());
 
     ["mouseup", "mouseleave"].iter().for_each(|event_type| {
         Box::leak(EventListener::new(&get_wrapper(), *event_type, move |_event| {
-            state::dragged::stop_drag();
+            state::STATE.with_borrow_mut(|state| {state::dragged::stop_drag(state);});
         }).into());
     });
 
