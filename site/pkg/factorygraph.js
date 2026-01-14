@@ -420,14 +420,14 @@ function __wbg_get_imports() {
         const ret = arg0.style;
         return ret;
     };
-    imports.wbg.__wbindgen_cast_09b1bea4802c0cd7 = function(arg0, arg1) {
-        // Cast intrinsic for `Closure(Closure { dtor_idx: 20, function: Function { arguments: [Ref(NamedExternref("Event"))], shim_idx: 21, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
-        const ret = makeMutClosure(arg0, arg1, wasm.wasm_bindgen__closure__destroy__h40061e59c830abdb, wasm_bindgen__convert__closures________invoke__hc8c1bd7826887a18);
-        return ret;
-    };
     imports.wbg.__wbindgen_cast_2241b6af4c4b2941 = function(arg0, arg1) {
         // Cast intrinsic for `Ref(String) -> Externref`.
         const ret = getStringFromWasm0(arg0, arg1);
+        return ret;
+    };
+    imports.wbg.__wbindgen_cast_6153922a120a1587 = function(arg0, arg1) {
+        // Cast intrinsic for `Closure(Closure { dtor_idx: 21, function: Function { arguments: [Ref(NamedExternref("Event"))], shim_idx: 22, ret: Unit, inner_ret: Some(Unit) }, mutable: true }) -> Externref`.
+        const ret = makeMutClosure(arg0, arg1, wasm.wasm_bindgen__closure__destroy__h40061e59c830abdb, wasm_bindgen__convert__closures________invoke__hc8c1bd7826887a18);
         return ret;
     };
     imports.wbg.__wbindgen_init_externref_table = function() {

@@ -1,17 +1,21 @@
 use super::*;
 
+/// A node that marks a differential of an item at a connection
 #[readonly::make]
 pub struct ItemNode {
     pub key: state::graph::NodeKey,
     pub element: Element,
     pub position: Point<f64>,
+    pub item: item::Item,
     start_drag: EventListener,
 }
 impl ItemNode {
-    pub fn create(state:&mut state::State, position:Point<f64>) {
+    pub fn create(state:&mut state::State, position:Point<f64>, item_id:ItemId) {
         let element = document().create_element("node").unwrap();
         _ = document().get_element_by_id("nodeElements").unwrap().append_child(&element);
         _ = element.as_html_element().class_list().add_1("itemNode");
+
+        let item = item::Item::create(item_id, &element);
 
         state::graph::add_node(|key| {
             let start_drag = EventListener::new(&element, "mousedown",  move |event| {
@@ -24,8 +28,9 @@ impl ItemNode {
             let mut node = ItemNode {
                 key,
                 element,
-                position: Point::new(0.0, 0.0),
-                start_drag
+                position: Point::default(),
+                item,
+                start_drag,
             };
             _ = node.element.as_html_element().set_attribute("node_id", &node.key.data().as_ffi().to_string());
             node.set_position(position);

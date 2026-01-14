@@ -12,17 +12,19 @@ pub mod graph {
         log_scale: f64,
         log_scale_target: f64,
         last_zoom_point: Point<f64>,
-        nodes: SlotMap<NodeKey, node::ItemNode>
+        nodes: SlotMap<NodeKey, node::ItemNode>,
     }
 
-    pub(super) fn default() -> State {
-        State {
-            position: Point::new(0.0, 0.0),
-            scale: 1.0,
-            log_scale: 0.0,
-            log_scale_target: 0.0,
-            last_zoom_point: Point::new(0.0, 0.0),
-            nodes: SlotMap::with_key()
+    impl Default for State {
+        fn default() -> State {
+            State {
+                position: Point::default(),
+                scale: 1.0,
+                log_scale: 0.0,
+                log_scale_target: 0.0,
+                last_zoom_point: Point::default(),
+                nodes: SlotMap::with_key(),
+            }
         }
     }
 
@@ -70,14 +72,13 @@ pub mod dragged {
     use super::*;
     type S = super::State;
 
-    #[derive(Clone, Copy)]
+    #[derive(Clone, Copy, Default)]
     pub enum State {
+        #[default]
         Nothing,
         Graph,
-        Node(graph::NodeKey)
+        Node(graph::NodeKey),
     }
-
-    pub(super) const fn default() -> State { State::Nothing }
 
     pub fn stop_drag(state: &mut S) {
         state.dragged = State::Nothing;
@@ -109,19 +110,15 @@ pub mod dragged {
 }
 
 #[readonly::make]
+#[derive(Default)]
 pub struct State {
     pub graph: graph::State,
     pub dragged: dragged::State,
     pub mouse_screen_position: Point<i32>,
+    pub specification: Specification,
 }
 
-thread_local! {
-    pub static STATE:RefCell<State> = RefCell::new(State {
-        graph: graph::default(),
-        dragged: dragged::default(),
-        mouse_screen_position: Point::new(0, 0),
-    });
-}
+thread_local! { pub static STATE:RefCell<State> = RefCell::new(State::default()); }
 
 pub fn init() {
     Box::leak(EventListener::new(&get_wrapper(), "mousemove", |event| {

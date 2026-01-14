@@ -3,7 +3,7 @@ use std::{ops::{Add, Sub, Neg, Mul, Div}};
 
 pub const WRAPPER_SCREEN_POSITION:Point<i32> = Point::new(0, 52);
 
-#[derive(Debug, Copy, Clone, PartialEq)]
+#[derive(Debug, Copy, Clone, PartialEq, Default)]
 pub struct Point<T> {
     pub x: T,
     pub y: T,
@@ -11,7 +11,10 @@ pub struct Point<T> {
 
 impl<T> Point<T> {
     pub const fn new(x:T, y:T) -> Point<T> {
-        Point::<T> {x, y}
+        Point::<T> {
+            x,
+            y,
+        }
     }
 }
 
@@ -54,7 +57,7 @@ impl<T: Neg<Output = T>> Neg for Point<T> {
     fn neg(self) -> Self::Output {
         Self {
             x: -self.x,
-            y: -self.y
+            y: -self.y,
         }
     }
 }
