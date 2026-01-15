@@ -1,5 +1,7 @@
 use super::*;
 
+pub mod specification;
+
 pub mod graph {
     use super::*;
     type S = super::State;
@@ -60,9 +62,9 @@ pub mod graph {
     pub fn add_node<F>(node:F, state:&mut S) -> NodeKey where F: FnOnce(NodeKey) -> node::ItemNode {
         state.graph.nodes.insert_with_key(node)
     }
-    /*pub fn get_node(key:NodeKey, state:&S) -> Option<&node::ItemNode> {
+    pub fn get_node(key:NodeKey, state:&S) -> Option<&node::ItemNode> {
         state.graph.nodes.get(key)
-    }*/
+    }
     pub fn get_node_mut(key:NodeKey, state:&mut S) -> Option<&mut node::ItemNode> {
         state.graph.nodes.get_mut(key)
     }
@@ -121,6 +123,8 @@ pub struct State {
 thread_local! { pub static STATE:RefCell<State> = RefCell::new(State::default()); }
 
 pub fn init() {
+    STATE.with_borrow_mut(|state| {specification::load_specification(specification::test_specification(), state);});
+
     Box::leak(EventListener::new(&get_wrapper(), "mousemove", |event| {
         let event = event.dyn_ref::<MouseEvent>().unwrap();
         dragged::process_drag(Point::new(event.movement_x().into(), event.movement_y().into()));

@@ -1,17 +1,17 @@
-use std::{cell::RefCell, collections::HashMap};
+use std::{cell::RefCell, collections::HashMap, hash::Hash};
 use wasm_bindgen::prelude::*;
 use web_sys::{Element, MouseEvent, WheelEvent, HtmlElement};
 use gloo::{events::EventListener,utils::document};
 use slotmap::{SlotMap, Key, new_key_type};
+use common_macros::hash_map;
 
 mod util;
 mod state;
 mod node;
 mod item;
-mod specification;
 
 use util::*;
-use specification::{Specification, ItemId, RecipeId};
+use state::specification::{self, Specification, ItemId, RecipeId, MachineId};
 
 #[wasm_bindgen(start)]
 fn init() -> Result<(), JsValue> {
@@ -48,5 +48,5 @@ pub fn step() {
 
 #[wasm_bindgen]
 pub fn add_node() {
-    state::STATE.with_borrow_mut(|state| {node::ItemNode::create(state, Point::default(), ItemId("ITEM".to_owned()));});
+    state::STATE.with_borrow_mut(|state| {node::ItemNode::create(state, Point::default(), ItemId("testing:a".to_owned()));});
 }
