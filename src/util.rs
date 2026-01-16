@@ -97,10 +97,40 @@ impl MoveTowardExp for f64 {
 
 pub trait ElementExt {
     fn as_html_element(self:&Self) -> &HtmlElement;
+    fn query_selector_expect(self:&Self, query:&str) -> Element;
+    fn create_child(self:&Self, name:&str) -> Element;
+    fn with_attr(self:Self, attr:&str, value:&str) -> Element;
+    fn with_class(self:Self, class:&str) -> Element;
+    fn with_text_content(self:Self, content:&str) -> Element;
 }
 impl ElementExt for Element {
     fn as_html_element(self:&Self) -> &HtmlElement {
         self.dyn_ref::<HtmlElement>().unwrap()
+    }
+
+    fn query_selector_expect(self:&Self, query:&str) -> Element {
+        self.query_selector(query).unwrap().unwrap()
+    }
+
+    fn create_child(self:&Self, name:&str) -> Element {
+        let element = document().create_element(name).unwrap();
+        _ = self.append_child(&element);
+        element
+    }
+
+    fn with_attr(self:Self, attr:&str, value:&str) -> Element {
+        _ = self.set_attribute(attr, value);
+        self
+    }
+
+    fn with_class(self:Self, class:&str) -> Element {
+        _ = self.class_list().add_1(class);
+        self
+    }
+
+    fn with_text_content(self:Self, content:&str) -> Element {
+        _ = self.set_text_content(Some(content));
+        self
     }
 }
 
@@ -109,9 +139,9 @@ pub fn get_wrapper() -> Element {
 }
 
 pub fn screen_to_world(point:Point<i32>, state:&state::State) -> Point<f64> {
-    (Point::<f64>::from(point - WRAPPER_SCREEN_POSITION) - state.graph.position)/state.graph.scale
+    (Point::<f64>::from(point - WRAPPER_SCREEN_POSITION) - state::graph::get_position(state))/state::graph::get_scale(state)
 }
 
-/*pub fn world_to_screen(point:Point<f64>, state:&state::State) -> Point<i32> {
-    Point::<i32>::from(point * state.graph.scale + state.graph.position) + WRAPPER_SCREEN_POSITION
-}*/
+pub fn world_to_screen(point:Point<f64>, state:&state::State) -> Point<i32> {
+    Point::<i32>::from(point * state::graph::get_scale(state) + state::graph::get_position(state)) + WRAPPER_SCREEN_POSITION
+}

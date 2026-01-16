@@ -14,7 +14,7 @@ pub mod graph {
         log_scale: f64,
         log_scale_target: f64,
         last_zoom_point: Point<f64>,
-        nodes: SlotMap<NodeKey, node::ItemNode>,
+        pub nodes: SlotMap<NodeKey, node::ItemNode>,
     }
 
     impl Default for State {
@@ -29,6 +29,9 @@ pub mod graph {
             }
         }
     }
+
+    pub fn get_position(state:&S) -> Point<f64> {state.graph.position}
+    pub fn get_scale(state:&S) -> f64 {state.graph.scale}
 
     pub fn set_position(to:Point<f64>, state:&mut S) {
         state.graph.position = to;
@@ -67,6 +70,10 @@ pub mod graph {
     }
     pub fn get_node_mut(key:NodeKey, state:&mut S) -> Option<&mut node::ItemNode> {
         state.graph.nodes.get_mut(key)
+    }
+
+    pub fn delete_node(node:NodeKey, state:&mut S) {
+        state.graph.nodes.remove(node);
     }
 }
 
@@ -116,13 +123,20 @@ pub mod dragged {
 #[readonly::make]
 #[derive(Default)]
 pub struct State {
-    pub graph: graph::State,
-    pub dragged: dragged::State,
-    pub mouse_screen_position: Point<i32>,
-    pub specification: Specification,
+    graph: graph::State,
+    dragged: dragged::State,
+    mouse_screen_position: Point<i32>,
+    specification: Specification,
 }
 
-thread_local! { pub static STATE:RefCell<State> = RefCell::new(State::default()); }
+thread_local! { static STATE:RefCell<State> = RefCell::new(State::default()); }
+
+pub fn borrow_state<F, R>(f:F) -> R where F: FnOnce(&State) -> R {
+    STATE.with_borrow(f)
+}
+pub fn borrow_state_mut<F, R>(f:F) -> R where F: FnOnce(&mut State) -> R {
+    STATE.with_borrow_mut(f)
+}
 
 pub fn init() {
     STATE.with_borrow_mut(|state| {

@@ -1,7 +1,7 @@
 item {
     --image: url(../assets/placeholder.png);
 	position: relative;
-	display: block;
+	display: inline-block;
 	width: 16em;
 	height: 16em;
 	background: var(--dark) var(--image);

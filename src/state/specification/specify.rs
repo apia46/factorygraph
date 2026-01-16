@@ -5,6 +5,7 @@ pub trait Specifiable: Sized {
     type Tag: PartialEq + Eq + Clone + Debug;
 
     fn get<'a>(id:&Self::Id, state:&'a S) -> Option<&'a Self>;
+    fn get_or_default<'a>(id:&Self::Id, state:&'a S) -> &'a Self;
     fn get_default(state:&S) -> &Self;
     fn has_tag(self:&Self, tag:&Self::Tag) -> bool; 
 }

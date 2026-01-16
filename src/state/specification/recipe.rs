@@ -36,6 +36,10 @@ impl Specifiable for Recipe {
         state.specification.recipes.get(&RecipeId("unknown".to_owned())).expect("Did you forget to load the default specification?")
     }
     
+    fn get_or_default<'a>(recipe_id:&Self::Id, state:&'a S) -> &'a Self {
+        state.specification.recipes.get(recipe_id).unwrap_or_else(|| Self::get_default(state))
+    }
+
     fn has_tag(self:&Self, tag:&Self::Tag) -> bool {
         self.tags.iter().any(|check| check == tag)
     }

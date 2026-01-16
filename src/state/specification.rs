@@ -26,6 +26,9 @@ pub fn load_specification(specification: Specification, state: &mut S) {
     state.specification.recipes.extend(specification.recipes);
     state.specification.machines.extend(specification.machines);
     state.specification.modifiers.extend(specification.modifiers);
+    for node in state.graph.nodes.values() {
+        node.update_html(state);
+    }
 }
 
 fn count_item(vec:&Vec<ItemStack>, item_id:&ItemId, state:&S) -> f64 {
@@ -35,7 +38,7 @@ fn count_item(vec:&Vec<ItemStack>, item_id:&ItemId, state:&S) -> f64 {
 pub fn defaults_specification() -> Specification {
     Specification {
         items: hash_map!{
-            ItemId("unknown".into()) => Item {name: "Unknown Item".into(), image: None, tags: vec![]}
+            ItemId("unknown".into()) => Item {name: "Unknown Item".into(), image: None, unit: None, tags: vec![]}
         },
         recipes: hash_map!{
             RecipeId("unknown".into()) => Recipe {
@@ -53,8 +56,8 @@ pub fn defaults_specification() -> Specification {
 pub fn test_specification() -> Specification {
     Specification {
         items: hash_map!{
-            ItemId("testing:a".into()) => Item {name: "Item A".into(), image: Some("../assets/testing/images/a.png".into()), tags:vec![]},
-            ItemId("testing:b".into()) => Item {name: "Item B".into(), image: Some("../assets/testing/images/b.png".into()), tags:vec![]},
+            ItemId("testing:a".into()) => Item {name: "Item A".into(), image: Some("../assets/testing/images/a.png".into()), unit: None, tags:vec![]},
+            ItemId("testing:b".into()) => Item {name: "Item B".into(), image: Some("../assets/testing/images/b.png".into()), unit: Some("L".into()), tags:vec![]},
         },
         recipes: hash_map!{
             RecipeId("testing:b".into()) => Recipe {

@@ -21,6 +21,8 @@ body {
 	--dark: #333;
 	--darker: #222;
 	--darkest: #111;
+    
+    --red: #ff0066;
 }
 
 button {

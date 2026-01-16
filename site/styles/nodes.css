@@ -1,7 +1,8 @@
 node {
 	display: block;
-	background: var(--darkest);
+	background: var(--darker);
 	box-sizing: border-box;
+    text-wrap-mode: nowrap;
 }
 
 #graph node {
@@ -13,11 +14,100 @@ node {
 	top: calc(round(var(--posY) + 9, 18) * 1px - 4px);
 }
 
+node .deleter {
+    position: absolute;
+    display: block;
+    font-family: fontawesome;
+    font-size: 8px;
+    right: 0px;
+    top: 0px;
+    width: 8px;
+    height: 8px;
+    text-align: center;
+    line-height: 8px;
+    &:hover {
+        background-color: var(--red);
+    }
+}
+
 node.itemNode {
-    width: 74em;
     height: 20em;
-    border: 2em solid var(--darker);
-    item {
-        border-right: 2em solid var(--darker);
+    padding: 2em;
+
+    .right-side {
+        vertical-align: top;
+        display: inline-block;
+        width: 52em;
+        height: 100%;
+        box-sizing: border-box;
+        margin-left: 2em;
+        background: var(--darkest);
+    }
+
+    .number-container {
+        display: flex;
+        margin-bottom: 4px;
+        direction: ltr;
+    }
+
+    input.quantity {
+        box-sizing: border-box;
+        font-size: 23px;
+        padding: 0px 4px;
+        outline: none;
+        border: none;
+        background: var(--dark);
+        min-width: 0;
+        text-align: right;
+        color: var(--highlight);
+        flex-shrink: 1;
+    }
+    .number-container[unit]::after {
+        content: attr(unit);
+        padding-right: 4px;
+        font-size: 23px;
+        background: var(--dark);
+        box-sizing: border-box;
+        line-height: 28px;
+    }
+
+    input.quantity:focus, .number-container:has(input.quantity:focus)::after {
+        outline: 2px solid var(--highlight);
+    }
+
+    label.constrain::after, button.flipper {
+        font-family: fontawesome;
+        cursor: pointer;
+        text-align: center;
+        vertical-align: top;
+        display: inline-block;
+        line-height: 28px;
+        font-size: 20px;
+        width: 28px;
+        height: 28px;
+        margin: 0px 4px;
+    }
+
+    label.constrain {
+        input {
+            display: none;
+        }
+        &::after {
+            content: "\f09c";
+            background: var(--dark);
+            color: var(--highlight);
+        }
+        &:hover::after {
+            background-color: var(--bright);
+        }
+    }
+
+    button.flipper {
+        float: right;
+        line-height: 24px;
+        color: var(--dark);
+        &:hover {
+            color: var(--bright);
+        }
     }
 }
