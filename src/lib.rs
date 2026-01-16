@@ -24,19 +24,19 @@ fn init() -> Result<(), JsValue> {
     Box::leak(EventListener::new(&get_wrapper(), "mousedown", move |event| {
         let event = event.dyn_ref::<MouseEvent>().unwrap();
         if event.button() == 0 {
-            state::borrow_state_mut(|state| {state::dragged::drag_graph(state);});
+            state::borrow_state_mut(|state| state::dragged::drag_graph(state));
         }
     }).into());
 
     ["mouseup", "mouseleave"].iter().for_each(|event_type| {
         Box::leak(EventListener::new(&get_wrapper(), *event_type, move |_event| {
-            state::borrow_state_mut(|state| {state::dragged::stop_drag(state);});
+            state::borrow_state_mut(|state| state::dragged::stop_drag(state));
         }).into());
     });
 
     Box::leak(EventListener::new(&get_wrapper(), "wheel", |event| {
         let event = event.dyn_ref::<WheelEvent>().unwrap();
-        state::borrow_state_mut(|state| {state::graph::change_scale_target(-event.delta_y(), state);});
+        state::borrow_state_mut(|state| state::graph::change_scale_target(-event.delta_y(), state));
     }).into());
 
     Ok(())
@@ -44,10 +44,10 @@ fn init() -> Result<(), JsValue> {
 
 #[wasm_bindgen]
 pub fn step() {
-    state::borrow_state_mut(|state| {state::graph::approach_scale_target(0.5, state);});
+    state::borrow_state_mut(|state| state::graph::approach_scale_target(0.5, state));
 }
 
 #[wasm_bindgen]
 pub fn add_item_node(id:String) {
-    state::borrow_state_mut(|state| {node::ItemNode::create(Point::default(), ItemId(id), state);});
+    state::borrow_state_mut(|state| node::ItemNode::create(Point::default(), ItemId(id), state));
 }

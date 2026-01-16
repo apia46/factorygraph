@@ -14,20 +14,22 @@ node {
 	top: calc(round(var(--posY) + 9, 18) * 1px - 4px);
 }
 
-node .deleter {
+#graph node .deleter {
     position: absolute;
     display: block;
     font-family: fontawesome;
     font-size: 8px;
-    right: 0px;
-    top: 0px;
-    width: 8px;
-    height: 8px;
+    right: 0;
+    top: 0;
+    width: 1em;
+    height: 1em;
     text-align: center;
-    line-height: 8px;
+    line-height: 1em;
+    background: var(--darker);
     &:hover {
-        background-color: var(--red);
+        background: var(--red);
     }
+    z-index: 1;
 }
 
 node.itemNode {
@@ -98,16 +100,25 @@ node.itemNode {
             color: var(--highlight);
         }
         &:hover::after {
-            background-color: var(--bright);
+            outline: 2px solid var(--highlight);
         }
     }
 
     button.flipper {
-        float: right;
+        float: inline-end;
         line-height: 24px;
         color: var(--dark);
         &:hover {
             color: var(--bright);
+            outline: none;
+        }
+    }
+    
+    &[flipped] {
+        direction: rtl;
+        .right-side {
+            margin-left: 0em;
+            margin-right: 2em;
         }
     }
 }

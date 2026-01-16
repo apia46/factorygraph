@@ -99,6 +99,7 @@ pub trait ElementExt {
     fn as_html_element(self:&Self) -> &HtmlElement;
     fn query_selector_expect(self:&Self, query:&str) -> Element;
     fn create_child(self:&Self, name:&str) -> Element;
+    fn create_child_prepend(self:&Self, name:&str) -> Element;
     fn with_attr(self:Self, attr:&str, value:&str) -> Element;
     fn with_class(self:Self, class:&str) -> Element;
     fn with_text_content(self:Self, content:&str) -> Element;
@@ -115,6 +116,12 @@ impl ElementExt for Element {
     fn create_child(self:&Self, name:&str) -> Element {
         let element = document().create_element(name).unwrap();
         _ = self.append_child(&element);
+        element
+    }
+
+    fn create_child_prepend(self:&Self, name:&str) -> Element {
+        let element = document().create_element(name).unwrap();
+        _ = self.prepend_with_node_1(&element);
         element
     }
 

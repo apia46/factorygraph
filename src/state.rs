@@ -107,7 +107,7 @@ pub mod dragged {
         match STATE.with_borrow(|state| state.dragged) {
             State::Nothing => {},
             State::Graph => {
-                STATE.with_borrow_mut(|state| {graph::move_position(dist, state);});
+                STATE.with_borrow_mut(|state| graph::move_position(dist, state));
             },
             State::Node(key) => {
                 STATE.with_borrow_mut(|state| {
@@ -149,6 +149,6 @@ pub fn init() {
         let event = event.dyn_ref::<MouseEvent>().unwrap();
         dragged::process_drag(Point::new(event.movement_x().into(), event.movement_y().into()));
 
-        STATE.with_borrow_mut(|state| {state.mouse_screen_position = Point::new(event.client_x(), event.client_y());});
+        STATE.with_borrow_mut(|state| state.mouse_screen_position = Point::new(event.client_x(), event.client_y()));
     }).into());
 }

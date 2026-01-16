@@ -1,3 +1,5 @@
+use web_sys::Event;
+
 use super::*;
 
 /// A node that marks a differential of an item at a connection
@@ -8,7 +10,8 @@ pub struct ItemNode {
     pub position: Point<f64>,
     pub item: item::Item,
     start_drag: EventListener,
-    deleter:EventListener,
+    delete:EventListener,
+    flip:EventListener,
 }
 impl ItemNode {
     pub fn create(position:Point<f64>, item_id:ItemId, state:&mut state::State) {
@@ -35,22 +38,24 @@ impl ItemNode {
         let flipper = right_side.create_child("button").with_class("flipper").with_text_content("\u{f2f1}");
 
         state::graph::add_node(|key| {
-            let deleter = make_deleter_element(key, &element);
+            let delete = make_deleter_element(key, &element);
             
             let start_drag = EventListener::new(&element, "mousedown",  move |event| {
                 let event = event.dyn_ref::<MouseEvent>().unwrap();
                 event.stop_propagation();
                 if event.button() == 0 {
-                    state::borrow_state_mut(|state| {state::dragged::drag_node(key, state);});
+                    state::borrow_state_mut(|state| state::dragged::drag_node(key, state));
                 }
+            });
+            let flip = EventListener::new(&flipper, "click", move |_| {
+                state::borrow_state(|state| state::graph::get_node(key, state).unwrap().flip());
             });
             let mut node = ItemNode {
                 key,
                 element,
                 position: Point::default(),
                 item,
-                start_drag,
-                deleter,
+                start_drag, delete, flip,
             };
             _ = node.element.as_html_element().set_attribute("node_id", &node.key.data().as_ffi().to_string());
             node.set_position(position);
@@ -67,6 +72,10 @@ impl ItemNode {
 
     pub fn move_position(self:&mut Self, by:Point<f64>) {
         self.set_position(self.position+by);
+    }
+
+    fn flip(self:&Self) {
+        _ = self.element.toggle_attribute("flipped");
     }
 
     pub fn update_html(self:&Self, state:&state::State) {
@@ -91,7 +100,7 @@ fn make_node_element(class:&str) -> Element {
 }
 
 fn make_deleter_element(key:state::graph::NodeKey, element:&Element) -> EventListener {
-    let deleter = element.create_child("div").with_class("deleter").with_text_content("\u{f00d}");
+    let deleter = element.create_child_prepend("div").with_class("deleter").with_text_content("\u{f00d}");
     EventListener::once(&deleter, "click", move |_| {
         state::borrow_state_mut(|state| {state::graph::delete_node(key, state)});
     })
