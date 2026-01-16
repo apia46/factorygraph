@@ -1,16 +1,16 @@
 use super::*;
 
-#[derive(PartialEq, Eq, Hash, Clone)]
+#[derive(PartialEq, Eq, Hash, Clone, Debug)]
 pub struct MachineId(pub String);
 
-#[derive(PartialEq, Clone)]
+#[derive(PartialEq, Clone, Debug)]
 pub struct Machine {
     pub(super) name: String,
     pub(super) image: Option<String>,
     pub(super) tags: Vec<MachineTag>,
 }
 
-#[derive(PartialEq, Eq, Clone)]
+#[derive(PartialEq, Eq, Clone, Debug)]
 pub struct MachineTag(pub String);
 
 impl Specifiable for Machine {
@@ -19,6 +19,10 @@ impl Specifiable for Machine {
 
     fn get<'a>(machine_id:&Self::Id, state:&'a S) -> Option<&'a Self> {
         state.specification.machines.get(machine_id)
+    }
+
+    fn get_default(state:&S) -> &Self {
+        state.specification.machines.get(&MachineId("unknown".to_owned())).expect("Did you forget to load the default specification?")
     }
     
     fn has_tag(self:&Self, tag:&Self::Tag) -> bool {

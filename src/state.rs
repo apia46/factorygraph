@@ -91,6 +91,8 @@ pub mod dragged {
     }
 
     pub fn drag_node(key:graph::NodeKey, state: &mut S) {
+        let element = &graph::get_node(key, state).unwrap().element;
+        _ = document().get_element_by_id("nodeElements").unwrap().append_child(element); // move to top
         state.dragged = State::Node(key);
     }
 
@@ -123,7 +125,11 @@ pub struct State {
 thread_local! { pub static STATE:RefCell<State> = RefCell::new(State::default()); }
 
 pub fn init() {
-    STATE.with_borrow_mut(|state| {specification::load_specification(specification::test_specification(), state);});
+    STATE.with_borrow_mut(|state| {
+        specification::load_specification(specification::defaults_specification(), state);
+        specification::load_specification(specification::test_specification(), state);
+    });
+    STATE.with_borrow(|state| web_sys::console::log_1(&format!("{:?}", state.specification).into()));
 
     Box::leak(EventListener::new(&get_wrapper(), "mousemove", |event| {
         let event = event.dyn_ref::<MouseEvent>().unwrap();

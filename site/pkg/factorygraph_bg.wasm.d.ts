@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export const memory: WebAssembly.Memory;
-export const add_node: () => void;
+export const add_item_node: (a: number, b: number) => void;
 export const init: () => void;
 export const step: () => void;
 export const wasm_bindgen__convert__closures________invoke__hc8c1bd7826887a18: (a: number, b: number, c: any) => void;

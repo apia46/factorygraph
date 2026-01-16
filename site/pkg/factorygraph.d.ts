@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 
-export function add_node(): void;
+export function add_item_node(id: string): void;
 
 export function init(): void;
 
@@ -11,7 +11,7 @@ export type InitInput = RequestInfo | URL | Response | BufferSource | WebAssembl
 
 export interface InitOutput {
   readonly memory: WebAssembly.Memory;
-  readonly add_node: () => void;
+  readonly add_item_node: (a: number, b: number) => void;
   readonly init: () => void;
   readonly step: () => void;
   readonly wasm_bindgen__convert__closures________invoke__hc8c1bd7826887a18: (a: number, b: number, c: any) => void;

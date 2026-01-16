@@ -10,12 +10,12 @@ pub struct ItemNode {
     start_drag: EventListener,
 }
 impl ItemNode {
-    pub fn create(state:&mut state::State, position:Point<f64>, item_id:ItemId) {
+    pub fn create(position:Point<f64>, item_id:ItemId, state:&mut state::State) {
         let element = document().create_element("node").unwrap();
         _ = document().get_element_by_id("nodeElements").unwrap().append_child(&element);
         _ = element.as_html_element().class_list().add_1("itemNode");
 
-        let item = item::Item::create(item_id, &element);
+        let item = item::Item::create(item_id, &element, state);
 
         state::graph::add_node(|key| {
             let start_drag = EventListener::new(&element, "mousedown",  move |event| {

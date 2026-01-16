@@ -19,14 +19,15 @@ body {
 	--highlight: #fff;
 	--bright: #999;
 	--dark: #333;
-	--background: #111;
+	--darker: #222;
+	--darkest: #111;
 }
 
 button {
-	--this-background: var(--background);
+	--background: var(--darkest);
 	border: none;
 	outline: none;
-	background: var(--this-background);
+	background: var(--background);
 	color: var(--highlight);
 	cursor: pointer;
 

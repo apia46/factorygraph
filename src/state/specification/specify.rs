@@ -1,16 +1,18 @@
 use super::*;
 
 pub trait Specifiable: Sized {
-    type Id: PartialEq + Eq + Hash + Clone;
-    type Tag: PartialEq + Eq + Clone;
+    type Id: PartialEq + Eq + Hash + Clone + Debug;
+    type Tag: PartialEq + Eq + Clone + Debug;
 
     fn get<'a>(id:&Self::Id, state:&'a S) -> Option<&'a Self>;
+    fn get_default(state:&S) -> &Self;
     fn has_tag(self:&Self, tag:&Self::Tag) -> bool; 
 }
 
-#[derive(PartialEq, Eq, Clone)]
+#[derive(PartialEq, Eq, Clone, Debug)]
 pub enum Specifier<T: Specifiable> {
     Any,
+    None,
     Is(T::Id),
     Isnt(T::Id),
     Tag(T::Tag),
@@ -26,6 +28,7 @@ impl<T: Specifiable> Specifier<T> {
         let Some(check) = T::get(check_id, state) else {return false;};
         match self {
             Specifier::Any => true,
+            Specifier::None => false,
             Specifier::Is(id) => check_id == id,
             Specifier::Isnt(id) => check_id != id,
             Specifier::Tag(tag) => check.has_tag(tag),

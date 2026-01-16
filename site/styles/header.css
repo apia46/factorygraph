@@ -19,5 +19,5 @@ body[state="itemSearch"] #itemSearchHeader, body[state="itemSearch"] #searchOver
 	background-size: 32px;
 	background-position: 2px 2px;
 }
-#newRecipeNodeButton { background: var(--this-background) no-repeat url(../assets/newRecipe.png) }
-#newItemNodeButton { background: var(--this-background) no-repeat url(../assets/newItem.png) }
+#newRecipeNodeButton { background: var(--background) no-repeat url(../assets/newRecipe.png) }
+#newItemNodeButton { background: var(--background) no-repeat url(../assets/newItem.png) }

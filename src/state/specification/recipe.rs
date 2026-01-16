@@ -1,9 +1,9 @@
 use super::*;
 
-#[derive(PartialEq, Eq, Hash, Clone)]
+#[derive(PartialEq, Eq, Hash, Clone, Debug)]
 pub struct RecipeId(pub String);
 
-#[derive(PartialEq, Clone)]
+#[derive(PartialEq, Clone, Debug)]
 pub struct Recipe {
     pub(super) name: String,
     pub(super) image: Option<String>,
@@ -14,14 +14,14 @@ pub struct Recipe {
     pub(super) tags: Vec<RecipeTag>,
     pub(super) preprocessing: Option<Preprocessing>,
 }
-#[derive(PartialEq, Clone)]
+#[derive(PartialEq, Clone, Debug)]
 
 pub struct Preprocessing {
     pub(super) possible_machines:Option<Vec<MachineId>>,
     pub(super) possible_process_modifiers:Option<Vec<ModifierId>>
 }
 
-#[derive(PartialEq, Eq, Clone)]
+#[derive(PartialEq, Eq, Clone, Debug)]
 pub struct RecipeTag(pub String);
 
 impl Specifiable for Recipe {
@@ -30,6 +30,10 @@ impl Specifiable for Recipe {
 
     fn get<'a>(recipe_id:&Self::Id, state:&'a S) -> Option<&'a Self> {
         state.specification.recipes.get(recipe_id)
+    }
+
+    fn get_default(state:&S) -> &Self {
+        state.specification.recipes.get(&RecipeId("unknown".to_owned())).expect("Did you forget to load the default specification?")
     }
     
     fn has_tag(self:&Self, tag:&Self::Tag) -> bool {

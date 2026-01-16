@@ -8,6 +8,7 @@
         <link href="styles/header.css" rel="stylesheet">
         <link href="styles/graph.css" rel="stylesheet">
         <link href="styles/nodes.css" rel="stylesheet">
+        <link href="styles/item.css" rel="stylesheet">
         <script type="module">
             import init, {step} from "./pkg/factorygraph.js";
             await init();
@@ -28,8 +29,8 @@
 			</div>
         </div>
         <script type="module">
-            import {add_node} from "./pkg/factorygraph.js";
-            newItemNodeButton.addEventListener("click", ()=>add_node());
+            import {add_item_node} from "./pkg/factorygraph.js";
+            newItemNodeButton.addEventListener("click", ()=>add_item_node(prompt()));
         </script>
     </body>
 </html>

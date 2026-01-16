@@ -13,7 +13,7 @@ pub use machine::*;
 pub use specify::*;
 pub use modifier::*;
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub struct Specification {
     items: HashMap<ItemId, Item>,
     recipes: HashMap<RecipeId, Recipe>,
@@ -32,23 +32,41 @@ fn count_item(vec:&Vec<ItemStack>, item_id:&ItemId, state:&S) -> f64 {
     vec.iter().map(|stack| if stack.specifier.matches(item_id, state) {stack.count} else {0.0}).sum()
 }
 
+pub fn defaults_specification() -> Specification {
+    Specification {
+        items: hash_map!{
+            ItemId("unknown".into()) => Item {name: "Unknown Item".into(), image: None, tags: vec![]}
+        },
+        recipes: hash_map!{
+            RecipeId("unknown".into()) => Recipe {
+                name: "Unknown Recipe".into(), image: None, machine: Specifier::None, duration: 1.0,
+                inputs: vec![], outputs: vec![], tags: vec![], preprocessing: None
+            }
+        },
+        machines: hash_map!{
+            MachineId("unknown".into()) => Machine { name: "Unknown Machine".into(), image: None, tags: vec![] }
+        },
+        modifiers: hash_map!{}
+    }
+}
+
 pub fn test_specification() -> Specification {
     Specification {
         items: hash_map!{
-            ItemId("testing:a".into()) => Item {name: "Item A".into(), image:Some("assets/testing/images/a.png".into()), tags:vec![]},
-            ItemId("testing:b".into()) => Item {name: "Item B".into(), image:Some("assets/testing/images/b.png".into()), tags:vec![]},
+            ItemId("testing:a".into()) => Item {name: "Item A".into(), image: Some("../assets/testing/images/a.png".into()), tags:vec![]},
+            ItemId("testing:b".into()) => Item {name: "Item B".into(), image: Some("../assets/testing/images/b.png".into()), tags:vec![]},
         },
         recipes: hash_map!{
             RecipeId("testing:b".into()) => Recipe {
-                name: "Item B".into(), image: Some("assets/testing/images/b.png".into()), machine: Specifier::Any, duration: 1.0,
+                name: "Item B".into(), image: Some("../assets/testing/images/b.png".into()), machine: Specifier::Any, duration: 1.0,
                 inputs: vec![ItemStack{specifier: Specifier::Is(ItemId("testing::a".into())), count: 2.0}],
                 outputs: vec![ItemStack{specifier: Specifier::Is(ItemId("testing::b".into())), count: 2.0}],
                 tags: vec![], preprocessing:None
             },
         },
         machines: hash_map!{
-            MachineId("testing:distillery".into()) => Machine { name: "Distillery".into(), image: Some("assets/testing/images/distillery.png".into()), tags: vec![] },
-            MachineId("testing:distillery_2".into()) => Machine { name: "Distillery 2".into(), image: Some("assets/testing/images/distillery.png".into()), 
+            MachineId("testing:distillery".into()) => Machine { name: "Distillery".into(), image: Some("../assets/testing/images/distillery.png".into()), tags: vec![] },
+            MachineId("testing:distillery_2".into()) => Machine { name: "Distillery 2".into(), image: Some("../assets/testing/images/distillery.png".into()), 
                 tags: vec![MachineTag("fast".into())]
             },
         },
