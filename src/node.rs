@@ -16,9 +16,10 @@ pub struct ItemNode {
 impl ItemNode {
     pub fn create(position:Point<f64>, item_id:ItemId, state:&mut state::State) {
         let element = make_node_element("itemNode");
-        let item = item::Item::create(item_id, &element, state);
+        let contents = element.create_child("div").with_class("contents");
+        let item = item::Item::create(item_id, &contents, state);
 
-        let right_side = element.create_child("div").with_class("right-side");
+        let right_side = contents.create_child("div").with_class("right-side");
         
         let number_container = right_side.create_child("div").with_class("number-container");
 

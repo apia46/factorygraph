@@ -11,7 +11,26 @@ node {
     --posX: 0;
 	--posY: 0;
 	left: calc(round(var(--posX) + 9, 18) * 1px - 4px);
-	top: calc(round(var(--posY) + 9, 18) * 1px - 4px);
+	top: calc(round(var(--posY) + 9, 18) * 1px + 4px);
+    padding: 0em 2em;
+    &::before {
+        position: absolute;
+        content: " ";
+        left: 0;
+        top: -2em;
+        width: 100%;
+        height: calc(100% + 4em);
+        background: var(--darker);
+        z-index: -1;
+    }
+    .contents {
+        position: relative;
+        top: -2em;
+        padding: 2em 0;
+        height: calc(100% + 4em);
+        box-sizing: border-box;
+        background: var(--darker);
+    }
 }
 
 #graph node .deleter {
@@ -19,8 +38,8 @@ node {
     display: block;
     font-family: fontawesome;
     font-size: 8px;
-    right: 0;
-    top: 0;
+    right: 0em;
+    top: -1em;
     width: 1em;
     height: 1em;
     text-align: center;
@@ -29,18 +48,16 @@ node {
     &:hover {
         background: var(--red);
     }
-    z-index: 1;
 }
 
 node.itemNode {
-    height: 20em;
-    padding: 2em;
+    height: 16em;
 
     .right-side {
         vertical-align: top;
         display: inline-block;
         width: 52em;
-        height: 100%;
+        height: 16em;
         box-sizing: border-box;
         margin-left: 2em;
         background: var(--darkest);
