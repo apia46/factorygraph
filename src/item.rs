@@ -13,7 +13,7 @@ impl Item {
 
         let item = specification::Item::get_or_default(&item_id, state);
         if let Some(image) = item.get_image() {
-            _ = element.as_html_element().style().set_property("--image", format!("url({image})").as_str());
+            _ = element.cast::<HtmlElement>().style().set_property("--image", format!("url({image})").as_str());
         }
         Item {
             item_id,
@@ -24,9 +24,9 @@ impl Item {
     pub fn update_html(self:&Self, state:&state::State) {
         let item = specification::Item::get_or_default(&self.item_id, state);
         if let Some(image) = item.get_image() {
-            _ = self.element.as_html_element().style().set_property("--image", format!("url({image})").as_str());
+            _ = self.element.cast::<HtmlElement>().style().set_property("--image", format!("url({image})").as_str());
         } else {
-            _ = self.element.as_html_element().style().remove_property("--image");
+            _ = self.element.cast::<HtmlElement>().style().remove_property("--image");
         }
     }
 }

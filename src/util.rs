@@ -96,7 +96,7 @@ impl MoveTowardExp for f64 {
 }
 
 pub trait ElementExt {
-    fn as_html_element(self:&Self) -> &HtmlElement;
+    fn cast<T: JsCast>(self:&Self) -> &T;
     fn query_selector_expect(self:&Self, query:&str) -> Element;
     fn create_child(self:&Self, name:&str) -> Element;
     fn create_child_prepend(self:&Self, name:&str) -> Element;
@@ -105,8 +105,8 @@ pub trait ElementExt {
     fn with_text_content(self:Self, content:&str) -> Element;
 }
 impl ElementExt for Element {
-    fn as_html_element(self:&Self) -> &HtmlElement {
-        self.dyn_ref::<HtmlElement>().unwrap()
+    fn cast<T: JsCast>(self:&Self) -> &T {
+        self.dyn_ref::<T>().unwrap()
     }
 
     fn query_selector_expect(self:&Self, query:&str) -> Element {

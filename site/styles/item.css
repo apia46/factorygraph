@@ -12,7 +12,7 @@ item {
 	outline-offset: -2px;
 }
 item::after {
-	content: attr(quantity);
+	content: attr(value);
 	font-size: 4em;
 	text-shadow: 0.015625em 0.015625em var(--darkest);
 	position: absolute;

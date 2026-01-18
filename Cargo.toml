@@ -15,5 +15,5 @@ slotmap = "1"
 common_macros = "0.1"
 
 [dependencies.web-sys]
-features = ['Document', 'Element', 'HtmlElement', 'Node', 'Window', 'console', 'EventTarget', 'MouseEvent', 'WheelEvent', 'CssStyleDeclaration', 'DomTokenList']
+features = ['Document', 'Element', 'HtmlElement', 'Node', 'Window', 'console', 'EventTarget', 'MouseEvent', 'WheelEvent', 'CssStyleDeclaration', 'DomTokenList', 'HtmlInputElement']
 version = "0.3"

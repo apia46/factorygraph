@@ -63,13 +63,13 @@ node.itemNode {
         background: var(--darkest);
     }
 
-    .number-container {
+    .value-container {
         display: flex;
         margin-bottom: 4px;
         direction: ltr;
     }
 
-    input.quantity {
+    input.value {
         box-sizing: border-box;
         font-size: 23px;
         padding: 0px 4px;
@@ -81,7 +81,7 @@ node.itemNode {
         color: var(--highlight);
         flex-shrink: 1;
     }
-    .number-container[unit]::after {
+    .value-container[unit]::after {
         content: attr(unit);
         padding-right: 4px;
         font-size: 23px;
@@ -90,7 +90,7 @@ node.itemNode {
         line-height: 28px;
     }
 
-    input.quantity:focus, .number-container:has(input.quantity:focus)::after {
+    input.value:focus, .value-container:has(input.value:focus)::after {
         outline: 2px solid var(--highlight);
     }
 
@@ -118,6 +118,9 @@ node.itemNode {
         }
         &:hover::after {
             outline: 2px solid var(--highlight);
+        }
+        &:has(input:checked)::after {
+            content: "\f023";
         }
     }
 

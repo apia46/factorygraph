@@ -36,8 +36,8 @@ pub mod graph {
     pub fn set_position(to:Point<f64>, state:&mut S) {
         state.graph.position = to;
         let wrapper = get_wrapper();
-        _ = wrapper.as_html_element().style().set_property("--posX", &to.x.to_string());
-        _ = wrapper.as_html_element().style().set_property("--posY", &to.y.to_string());
+        _ = wrapper.cast::<HtmlElement>().style().set_property("--posX", &to.x.to_string());
+        _ = wrapper.cast::<HtmlElement>().style().set_property("--posY", &to.y.to_string());
     }
     pub fn move_position(by:Point<f64>, state:&mut S) {
         set_position(state.graph.position+by, state);
@@ -53,7 +53,7 @@ pub mod graph {
     fn set_log_scale(to:f64, state:&mut S) {
         state.graph.log_scale = to;
         state.graph.scale = 2.0f64.powf(to*0.003);
-        _ = get_wrapper().as_html_element().style().set_property("--scale", &state.graph.scale.to_string());
+        _ = get_wrapper().cast::<HtmlElement>().style().set_property("--scale", &state.graph.scale.to_string());
     }
     pub fn approach_scale_target(speed:f64, state:&mut S) {
         let scale_before = state.graph.scale;
