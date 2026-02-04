@@ -66,7 +66,7 @@ impl ItemNode {
                 state::borrow_state_mut(|state| state::graph::get_node_mut(key, state).unwrap().constrain_toggled());
             });
             let change_value_event = EventListener::new(&value_input, "input", move |_| {
-                state::borrow_state_mut(|state| state::graph::get_node_mut(key, state).unwrap().set_value());
+                state::borrow_state_mut(|state| state::graph::get_node_mut(key, state).unwrap().value_changed());
             });
             let set_value_event = EventListener::new(&value_input, "change", move |_| {
                 state::borrow_state(|state| state::graph::get_node(key, state).unwrap().coerce_value_input());
@@ -103,7 +103,7 @@ impl ItemNode {
         _ = self.element.toggle_attribute("flipped");
     }
 
-    fn set_constrain(self:&mut Self, to:bool) {
+    pub fn set_constrain(self:&mut Self, to:bool) {
         let constrain_input = self.get_constrain_input();
         let constrain_input = constrain_input.cast::<HtmlInputElement>();
         if constrain_input.checked() != to {
@@ -133,7 +133,7 @@ impl ItemNode {
         self.coerce_value_input();
     }
 
-    fn set_value(self:&mut Self) {
+    fn value_changed(self:&mut Self) {
         self.value = ConstrainValue::Constrained(self.get_value_input().cast::<HtmlInputElement>().value().parse::<f64>().unwrap_or_else(|_| 0.0));
         self.set_constrain(true);
     }
